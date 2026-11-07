@@ -1,67 +1,140 @@
-# Selección-Estilo-Arquitectónico
+# 0001 - Selección de Estilo Arquitectónico Principal
 
-* Status: proposed
-* Date: 2026-11-07
+- Status: accepted
+- Date: 2026-11-07
 
-Technical Story: Estilo de arquitectura de software de periodico digital con suscripción
+Technical Story: Definición del estilo de arquitectura de software para el sistema de periódico digital con suscripción.
 
 ## Context and Problem Statement
 
-Se necesita definir estilo arquitectonico principal de un periodico digital en el que los suscriptores puedan suscribirse a noticias por categorías. ¿Que estilo arquitectonico debe usarse en los distintos subsistemas y servir de base a las posteriores decisiones de diseño?
+Se necesita definir el estilo arquitectónico principal para soportar un periódico digital responsivo, con comunicación REST entre cliente y backend y persistencia distribuida en dos bases de datos PostgreSQL 19 aisladas.
 
 ## Decision Drivers
 
-* RD-01 Aplicación web: el sistema debe disponer de un frontend a traves del cual los usuarios accedan a el
-* RD-05 Comunicación HTTP/REST: las peticiones del frontend al backend se deben realizar mediante HTTP/REST
-* RD-03 Persistencia en PostgreSQL 19: se deben implementar dos bases de datos distintas, una para los datos de administradores y redactores y otra para los suscriptores
+- RF-1: Discriminación de dispositivos (adaptación de interfaz cliente PC/Tablet mediante HTTP/REST).
+- RD-3: Comunicación HTTP/REST (comunicación mediante API REST entre frontend y backend).
+- RD-5: Persistencia en PostgreSQL 19 (dos bases de datos independientes, una para redactores/administradores y otra para suscriptores).
 
 ## Considered Options
 
-* Cliente-Servidor
-* Microservicios
-* MVC
+# 0001 - Selección de Estilo Arquitectónico Principal
+
+- Status: accepted
+- Date: 2026-11-07
+
+Technical Story: Definición del estilo de arquitectura de software para el sistema de periódico digital con suscripción.
+
+## Context and Problem Statement
+
+Se necesita definir el estilo arquitectónico principal para soportar un periódico digital responsivo, con comunicación REST entre cliente y backend y persistencia distribuida en dos bases de datos PostgreSQL 19 aisladas.
+
+## Decision Drivers
+
+- RF-1: Discriminación de dispositivos (adaptación de interfaz cliente PC/Tablet mediante HTTP/REST).
+- RD-3: Comunicación HTTP/REST (comunicación mediante API REST entre frontend y backend).
+- RD-5: Persistencia en PostgreSQL 19 (dos bases de datos independientes, una para redactores/administradores y otra para suscriptores).
+
+## Considered Options
+
+- Cliente-Servidor en 3 Capas (Tiers)
+- Arquitectura de Microservicios
+- Arquitectura Peer-to-Peer (P2P)
 
 ## Decision Outcome
 
-Chosen option: "Cliente-Servidor", because Es la que mejor se adapta a los tres RD que hemos elegido, separando claramente las responsabilidades
+Chosen option: "Cliente-Servidor en 3 Capas", because es la opción que mejor se adapta a los Requisitos de Dominio elegidos, canalizando las peticiones HTTP/REST a través de una capa intermedia de lógica de negocio y separando adecuadamente la presentación del acceso a las dos bases de datos PostgreSQL 19.
 
 ### Positive Consequences
 
-* Separación de responsabilidades
-* Se puede ampliar mediante una caché para picos de lectura
-* El cliente nunca accede directamente a los datos
+- Clara separación de responsabilidades entre Presentación, Lógica y Datos.
+- Oculta las dos bases de datos PostgreSQL 19 al cliente web por motivos de seguridad.
+- El cliente nunca accede directamente a los datos.
+- Permite añadir una capa de caché propia de REST para resistir picos de lectura.
 
 ### Negative Consequences
 
-* La capa de lógica es compacta, por lo que si algo falla puede afectar al bloque entero
-* No queda claro de que forma se van a implementar las notificaciones a suscriptores
+- La capa de lógica de negocio es compacta, por lo que si sufre un fallo severo puede afectar al bloque entero.
+- Las métricas que combinan datos de ambas bases de datos independientes añaden complejidad al requerir agregación en el servidor de aplicación.
 
 ## Pros and Cons of the Options
 
-### Cliente-Servidor
+### Cliente-Servidor en 3 Capas
 
-Una arquitectura cliente-servidor en la que un cliente web se comunica con un back-end a traves de una API REST y que persiste los datos en dos bases de datos SQL independientes. 
-Separa las responsabilidades en presentación, lógica de negocio y acceso a datos
+Una arquitectura cliente-servidor en la que un cliente web responsivo se comunica con un backend a través de una API REST y persiste los datos en dos bases de datos SQL independientes. Separa las responsabilidades en presentación, lógica de negocio y acceso a datos.
 
-* Good, because Se separan responsabilidades, el cliente se encarga unicamente de mostrar la interfaz a los usuarios, mientras el servidor se encarga de contener la lógica y de la persistencia
-* Good, because El cliente no accede nunca directamente a las bases de datos, mejorando la seguridad
-* Good, because Podemos apoyarnos y complementar la arquitectura con una cache propia de REST para que la aplicación resista en picos de lectura
-* Bad, because La lógica se desplega en el mismo servicio, por lo que si algo falla puede afectar al resto de la aplicación
-* Bad, because Las métricas que combinan datos de ambas bases de datos añaden complejidad ya que la capa lógica tiene que acceder a las dos bases de datos a la vez
+- Good, because se separan responsabilidades: el cliente se encarga únicamente de mostrar la interfaz responsiva mientras el servidor contiene la lógica y la persistencia.
+- Good, because el cliente no accede nunca directamente a las bases de datos, mejorando la seguridad.
+- Good, because podemos apoyar la arquitectura con una caché para que la aplicación resista picos de lectura.
+- Bad, because la lógica se despliega en el mismo servicio de aplicación, aumentando la latencia frente a 2 capas.
 
-### Microservicios
+### Arquitectura de Microservicios
 
-Se usa un servicio independiente por cada sección del negocio con una responsabilidad distinta cada uno
+Se usa un servicio independiente por cada sección del negocio con una responsabilidad distinta cada uno.
 
-* Good, because Cada servicio se escala de forma independiente aislando fallos y protegiendo la mayor parte de nuestra aplicación
-* Bad, because Contradice el patrón de solamente una base de datos ya que tendremos dos distintas
-* Bad, because Se introduce una gran complejidad, desproporcionada para el tamaño del sistema
+- Good, because cada servicio se escala de forma independiente aislando fallos y protegiendo los servicios críticos.
+- Bad, because contradice el esquema planteado al descentralizar excesivamente la gestión de las dos bases de datos.
+- Bad, because introduce una gran complejidad operativa y de gobierno de datos, desproporcionada para la escala del sistema.
 
-### MVC (Modelo-Vista-Controlador)
+### Arquitectura Peer-to-Peer (P2P)
 
-Permite separar las responsabilidades de la aplicación web en tres partes (Modelo: Acceso a base de datos y lógica de negocio de operaciones de suscripción y usuarios | Vista: Front-end de la web con HTML | Controlador: Maneja comunicación con API y microservicios)
+Los nodos actúan dinámicamente como clientes y servidores de información.
 
-* Good because separa claramente las necesidades de las diferentes partes de la aplicación entre las dos bases de datos y la logica de negocio, el frontend y la interfaz del cliente gestionada mediante vistas, además de un controlador que maneja la comunicación entre estas dos partes.
-* Good because permite ampliar de forma sencilla cada una de los módulos de forma individual, en caso de que se quiera hacer una amplicación en el futuro de la aplicación
-* Bad because la separación podría introducir complejidad innecesaria en la aplicación por no ser excesivamente compleja
-* Bad, because Las métricas que combinan datos de ambas bases de datos añaden complejidad ya que la capa lógica tiene que acceder a las dos bases de datos a la vez
+- Good, because distribuye la carga entre los distintos nodos sin depender de un punto central de fallo.
+- Bad, because no encaja con un modelo de periódico digital con gestión centralizada de pagos, artículos y roles de administración.
+
+## Debate y Discusión (ASC vs ASS)
+
+- **Cuestionamiento del ASC:** El ASC objetó si el estilo de Microservicios no aislaba mejor los fallos del módulo de pagos frente a picos de lectura masivos de noticias.
+- **Respuesta de los ASS:** Los ASS justificaron que la complejidad de despliegue y gobierno de datos de Microservicios no compensaba en esta iteración inicial, y que Cliente-Servidor en 3 Capas cumple de forma óptima con los requisitos RF-1, RD-3 y RD-5.
+- **Acuerdo:** Se aprueba Cliente-Servidor en 3 Capas como el estilo arquitectónico principal del proyecto.
+- Cliente-Servidor en 3 Capas (Tiers)
+- Arquitectura de Microservicios
+- Arquitectura Peer-to-Peer (P2P)
+
+## Decision Outcome
+
+Chosen option: "Cliente-Servidor en 3 Capas", because es la opción que mejor se adapta a los Requisitos de Dominio elegidos, canalizando las peticiones HTTP/REST a través de una capa intermedia de lógica de negocio y separando adecuadamente la presentación del acceso a las dos bases de datos PostgreSQL 19.
+
+### Positive Consequences
+
+- Clara separación de responsabilidades entre Presentación, Lógica y Datos.
+- Oculta las dos bases de datos PostgreSQL 19 al cliente web por motivos de seguridad.
+- El cliente nunca accede directamente a los datos.
+- Permite añadir una capa de caché propia de REST para resistir picos de lectura.
+
+### Negative Consequences
+
+- La capa de lógica de negocio es compacta, por lo que si sufre un fallo severo puede afectar al bloque entero.
+- Las métricas que combinan datos de ambas bases de datos independientes añaden complejidad al requerir agregación en el servidor de aplicación.
+
+## Pros and Cons of the Options
+
+### Cliente-Servidor en 3 Capas
+
+Una arquitectura cliente-servidor en la que un cliente web responsivo se comunica con un backend a través de una API REST y persiste los datos en dos bases de datos SQL independientes. Separa las responsabilidades en presentación, lógica de negocio y acceso a datos.
+
+- Good, because se separan responsabilidades: el cliente se encarga únicamente de mostrar la interfaz responsiva mientras el servidor contiene la lógica y la persistencia.
+- Good, because el cliente no accede nunca directamente a las bases de datos, mejorando la seguridad.
+- Good, because podemos apoyar la arquitectura con una caché para que la aplicación resista picos de lectura.
+- Bad, because la lógica se despliega en el mismo servicio de aplicación, aumentando la latencia frente a 2 capas.
+
+### Arquitectura de Microservicios
+
+Se usa un servicio independiente por cada sección del negocio con una responsabilidad distinta cada uno.
+
+- Good, because cada servicio se escala de forma independiente aislando fallos y protegiendo los servicios críticos.
+- Bad, because contradice el esquema planteado al descentralizar excesivamente la gestión de las dos bases de datos.
+- Bad, because introduce una gran complejidad operativa y de gobierno de datos, desproporcionada para la escala del sistema.
+
+### Arquitectura Peer-to-Peer (P2P)
+
+Los nodos actúan dinámicamente como clientes y servidores de información.
+
+- Good, because distribuye la carga entre los distintos nodos sin depender de un punto central de fallo.
+- Bad, because no encaja con un modelo de periódico digital con gestión centralizada de pagos, artículos y roles de administración.
+
+## Debate y Discusión (ASC vs ASS)
+
+- **Cuestionamiento del ASC:** El ASC objetó si el estilo de Microservicios no aislaba mejor los fallos del módulo de pagos frente a picos de lectura masivos de noticias.
+- **Respuesta de los ASS:** Los ASS justificaron que la complejidad de despliegue y gobierno de datos de Microservicios no compensaba en esta iteración inicial, y que Cliente-Servidor en 3 Capas cumple de forma óptima con los requisitos RF-1, RD-3 y RD-5.
+- **Acuerdo:** Se aprueba Cliente-Servidor en 3 Capas como el estilo arquitectónico principal del proyecto.
