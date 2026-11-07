@@ -1,4 +1,3 @@
-
 # Observaciones ASC - Semana 1
 
 En este documento recogemos las observaciones de los arquitectos cognitivos sobre las decisiones planteadas por los ASS durante la primera semana.
@@ -56,7 +55,11 @@ Mis observaciones van dirigidas sobre todo a mejorar la justificación de la dec
 
 ### Observaciones de Víctor
 
-Pendiente de incorporar.
+**1. Evaluación de alternativas de diseño (Regla del 75%)**
+Revisar que en el documento MADR se incluyan explícitamente al menos dos alternativas reales de arquitectura (como Cliente-Servidor vs. Microservicios) bien comparadas, para cumplir con el requisito de la asignatura de evaluar más de una opción.
+
+**2. Justificación de la solución escogida**
+Apoyo la decisión de utilizar la arquitectura Cliente-Servidor en 3 Capas. La justificación principal en la decisión debe centrarse en que es la opción más sencilla de desarrollar y desplegar, permitiendo separar la interfaz web responsiva (PC/Tablet) de la lógica del servidor y de las dos bases de datos PostgreSQL 19 independientes.
 
 ### Respuesta de los ASS
 
@@ -72,7 +75,11 @@ Pendiente de acordar.
 
 ### Observaciones ASC
 
-Pendiente.
+**1. Definición del patrón de notificaciones**
+Debemos evitar definir esta decisión como un patrón de diseño a nivel de código interno (como Observer o Decorator) y enfocarlo hacia la arquitectura necesaria para distribuir las noticias.
+
+**2. Anonimato en las suscripciones RSS**
+El requisito aclara que la suscripción a los canales de noticias RSS debe ser anónima (sin datos personales). Se propone evaluar el patrón **Publicador-Suscriptor (Publish-Subscribe)** frente a realizar consultas periódicas (Polling HTTP), ya que permite notificar novedades por categorías sin requerir registro de los lectores.
 
 ### Respuesta de los ASS
 
@@ -88,7 +95,11 @@ Pendiente.
 
 ### Observaciones ASC
 
-Pendiente.
+**1. Trazabilidad con la tabla de requisitos**
+Asegurar que esta decisión utiliza como Decision Driver principal la pasarela Stripe (RD-4) y que las modalidades de suscripción (70€, 130€ y 190€) junto a la regla de los 3 intentos de pago fallidos quedan asociadas correctamente a sus códigos de requisitos.
+
+**2. Manejo de fallos en el cobro**
+Conviene dejar definido en el diseño cómo reacciona el sistema cuando falla la conexión con Stripe para garantizar la suspensión temporal de 24 horas tras los 3 intentos.
 
 ### Respuesta de los ASS
 
