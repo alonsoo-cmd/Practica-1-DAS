@@ -20,6 +20,7 @@ Se necesita definir estilo arquitectonico principal de un periodico digital en e
 * Cliente-Servidor
 * Microservicios
 * Dirigida por eventos
+* MVC
 
 ## Decision Outcome
 
