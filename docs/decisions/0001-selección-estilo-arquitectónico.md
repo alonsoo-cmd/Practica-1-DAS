@@ -11,9 +11,9 @@ Se necesita definir estilo arquitectonico principal de un periodico digital en e
 
 ## Decision Drivers
 
-* RD-01
-* RD-05
-* RD-03
+* RD-01 Aplicación web: el sistema debe disponer de un frontend a traves del cual los usuarios accedan a el
+* RD-05 Comunicación HTTP/REST: las peticiones del frontend al backend se deben realizar mediante HTTP/REST
+* RD-03 Persistencia en PostgreSQL 19: se deben implementar dos bases de datos distintas, una para los datos de administradores y redactores y otra para los suscriptores
 
 ## Considered Options
 
@@ -54,7 +54,7 @@ Separa las responsabilidades en presentación, lógica de negocio y acceso a dat
 Se usa un servicio independiente por cada sección del negocio con una responsabilidad distinta cada uno
 
 * Good, because Cada servicio se escala de forma independiente aislando fallos y protegiendo la mayor parte de nuestra aplicación
-* Bad, because Contradice el patrón de base de datos ya que tendremos dos distintas
+* Bad, because Contradice el patrón de solamente una base de datos ya que tendremos dos distintas
 * Bad, because Se introduce una gran complejidad, desproporcionada para el tamaño del sistema
 
 ### MVC (Modelo-Vista-Controlador)
