@@ -17,25 +17,6 @@ Se necesita definir el estilo arquitectónico principal para soportar un periód
 
 ## Considered Options
 
-# 0001 - Selección de Estilo Arquitectónico Principal
-
-- Status: accepted
-- Date: 2026-11-07
-
-Technical Story: Definición del estilo de arquitectura de software para el sistema de periódico digital con suscripción.
-
-## Context and Problem Statement
-
-Se necesita definir el estilo arquitectónico principal para soportar un periódico digital responsivo, con comunicación REST entre cliente y backend y persistencia distribuida en dos bases de datos PostgreSQL 19 aisladas.
-
-## Decision Drivers
-
-- RF-1: Discriminación de dispositivos (adaptación de interfaz cliente PC/Tablet mediante HTTP/REST).
-- RD-3: Comunicación HTTP/REST (comunicación mediante API REST entre frontend y backend).
-- RD-5: Persistencia en PostgreSQL 19 (dos bases de datos independientes, una para redactores/administradores y otra para suscriptores).
-
-## Considered Options
-
 - Cliente-Servidor en 3 Capas (Tiers)
 - Arquitectura de Microservicios
 - Arquitectura Peer-to-Peer (P2P)
@@ -49,7 +30,6 @@ Chosen option: "Cliente-Servidor en 3 Capas", because es la opción que mejor se
 - Clara separación de responsabilidades entre Presentación, Lógica y Datos.
 - Oculta las dos bases de datos PostgreSQL 19 al cliente web por motivos de seguridad.
 - El cliente nunca accede directamente a los datos.
-- Permite añadir una capa de caché propia de REST para resistir picos de lectura.
 
 ### Negative Consequences
 
@@ -64,7 +44,6 @@ Una arquitectura cliente-servidor en la que un cliente web responsivo se comunic
 
 - Good, because se separan responsabilidades: el cliente se encarga únicamente de mostrar la interfaz responsiva mientras el servidor contiene la lógica y la persistencia.
 - Good, because el cliente no accede nunca directamente a las bases de datos, mejorando la seguridad.
-- Good, because podemos apoyar la arquitectura con una caché para que la aplicación resista picos de lectura.
 - Bad, because la lógica se despliega en el mismo servicio de aplicación, aumentando la latencia frente a 2 capas.
 
 ### Arquitectura de Microservicios
@@ -72,7 +51,7 @@ Una arquitectura cliente-servidor en la que un cliente web responsivo se comunic
 Se usa un servicio independiente por cada sección del negocio con una responsabilidad distinta cada uno.
 
 - Good, because cada servicio se escala de forma independiente aislando fallos y protegiendo los servicios críticos.
-- Bad, because contradice el esquema planteado al descentralizar excesivamente la gestión de las dos bases de datos.
+- Bad, because añade una complejidad inecesaria al tener que gestionar 2 bases de datos distintas.
 - Bad, because introduce una gran complejidad operativa y de gobierno de datos, desproporcionada para la escala del sistema.
 
 ### Arquitectura Peer-to-Peer (P2P)
