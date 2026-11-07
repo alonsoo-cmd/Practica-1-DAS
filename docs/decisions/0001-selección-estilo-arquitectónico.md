@@ -64,3 +64,13 @@ Los productores publican eventos en un broker y los consumidores reaccionan a el
 * Good, because Ofrece bajo acoplamiento entre emisores y consumidores
 * Bad, because Non piden interacciones petición-respuesta con HTTP/REST
 * Bad, because El flujo de control es mas dificil de probar y depurar
+
+### MVC (Modelo-Vista-Controlador)
+
+Permite separar las responsabilidades de la aplicación web en tres partes (Modelo: Acceso a base de datos y lógica de negocio de operaciones de suscripción y usuarios | Vista: Front-end de la web con HTML | Controlador: Maneja comunicación con API y microservicios)
+
+* Good because separa claramente las necesidades de las diferentes partes de la aplicación
+* Good because al no ser una aplicación demasiado compleja, no se saturan las distintas módulos MVC
+* Good because permite ampliar de forma sencilla cada una de los módulos de forma individual
+* Bad because la separación podría introducir complejidad innecesaria en la aplicación por no ser excesivamente compleja
+* Bad, because Las métricas que combinan datos de ambas bases de datos añaden complejidad ya que la capa lógica tiene que acceder a las dos bases de datos a la vez
