@@ -1,7 +1,7 @@
 # Selección-Estilo-Arquitectónico
 
 * Status: proposed
-* Date: 2026-11-06
+* Date: 2026-11-07
 
 Technical Story: Estilo de arquitectura de software de periodico digital con suscripción
 
@@ -19,7 +19,6 @@ Se necesita definir estilo arquitectonico principal de un periodico digital en e
 
 * Cliente-Servidor
 * Microservicios
-* Dirigida por eventos
 * MVC
 
 ## Decision Outcome
@@ -58,20 +57,11 @@ Se usa un servicio independiente por cada sección del negocio con una responsab
 * Bad, because Contradice el patrón de base de datos ya que tendremos dos distintas
 * Bad, because Se introduce una gran complejidad, desproporcionada para el tamaño del sistema
 
-### Dirigida por eventos
-
-Los productores publican eventos en un broker y los consumidores reaccionan a ellos
-
-* Good, because Ofrece bajo acoplamiento entre emisores y consumidores
-* Bad, because Non piden interacciones petición-respuesta con HTTP/REST
-* Bad, because El flujo de control es mas dificil de probar y depurar
-
 ### MVC (Modelo-Vista-Controlador)
 
 Permite separar las responsabilidades de la aplicación web en tres partes (Modelo: Acceso a base de datos y lógica de negocio de operaciones de suscripción y usuarios | Vista: Front-end de la web con HTML | Controlador: Maneja comunicación con API y microservicios)
 
-* Good because separa claramente las necesidades de las diferentes partes de la aplicación
-* Good because al no ser una aplicación demasiado compleja, no se saturan las distintas módulos MVC
-* Good because permite ampliar de forma sencilla cada una de los módulos de forma individual
+* Good because separa claramente las necesidades de las diferentes partes de la aplicación entre las dos bases de datos y la logica de negocio, el frontend y la interfaz del cliente gestionada mediante vistas, además de un controlador que maneja la comunicación entre estas dos partes.
+* Good because permite ampliar de forma sencilla cada una de los módulos de forma individual, en caso de que se quiera hacer una amplicación en el futuro de la aplicación
 * Bad because la separación podría introducir complejidad innecesaria en la aplicación por no ser excesivamente compleja
 * Bad, because Las métricas que combinan datos de ambas bases de datos añaden complejidad ya que la capa lógica tiene que acceder a las dos bases de datos a la vez
