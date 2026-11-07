@@ -63,7 +63,7 @@ Apoyo la decisión de utilizar la arquitectura Cliente-Servidor en 3 Capas. La j
 
 ### Respuesta de los ASS
 
-Pendiente de discutir con Alonso e Izan.
+RD-3 y RD-5 ya se han corregido, y dejamos como tarea prioritaria para la siguiente semana la separación de la arquitectura MVC y cliente-servidor, y la justificación por sencillez de separación frontend-servidor.
 
 ### Conclusión
 
@@ -83,7 +83,7 @@ El requisito aclara que la suscripción a los canales de noticias RSS debe ser a
 
 ### Respuesta de los ASS
 
-Pendiente.
+Plantearemos la decisión como una arquitectura de distribución por noticias y publicaremos Publish-Suscribe con Polling HTTP, pero manteniendo el anonimato con RSS.
 
 ### Conclusión
 
@@ -103,7 +103,7 @@ Conviene dejar definido en el diseño cómo reacciona el sistema cuando falla la
 
 ### Respuesta de los ASS
 
-Pendiente.
+Asociaremos Stripe a el RD-4, los planes con distintos precios y la regla de los 3 intentos a sus requisitos, definiremos también como se comporta el sistema cuando falla la conexión.
 
 ### Conclusión
 
