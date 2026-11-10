@@ -1,6 +1,6 @@
-
-
 # Gestión de notificaciones/suscripciones
+
+*Esta decisión se elimina en la semana 2 debido a una mala comunicación y organización a la hora de definir requisitos*
 
 ## Context and Problem Statement
 
