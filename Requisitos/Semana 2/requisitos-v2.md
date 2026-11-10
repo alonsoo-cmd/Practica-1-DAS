@@ -1,11 +1,9 @@
 
-# Requisitos - Semana 1
+# Requisitos - Semana 2
 
 Documento de requisitos funcionales y de dominio de la Práctica 1 de Diseño y Arquitectura del Software.
 
 **Grupo 4**
-
-**Estado:** Requisitos revisados tras la tutoría del 10 de noviembre de 2026.
 
 ## 1. Requisitos funcionales
 
