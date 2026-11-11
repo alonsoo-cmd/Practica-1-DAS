@@ -30,6 +30,7 @@ Chosen option: "Cliente-Servidor en 3 Capas", because es la opción que mejor se
 
 - Clara separación de responsabilidades entre Presentación, Lógica y Datos.
 - Oculta las dos bases de datos PostgreSQL 19 al cliente web por motivos de seguridad.
+- Permite implementar las peticiones HTTP/REST de forma fácil
 - El cliente nunca accede directamente a los datos.
 
 ### Negative Consequences
@@ -44,6 +45,7 @@ Chosen option: "Cliente-Servidor en 3 Capas", because es la opción que mejor se
 Una arquitectura cliente-servidor en la que un cliente web responsivo se comunica con un backend a través de una API REST y persiste los datos en dos bases de datos SQL independientes. Separa las responsabilidades en presentación, lógica de negocio y acceso a datos.
 
 - Good, because se separan responsabilidades: el cliente se encarga únicamente de mostrar la interfaz responsiva mientras el servidor contiene la lógica y la persistencia.
+- Good, because podemos implementar las peticiones HTTP/REST sin problemas.
 - Good, because el cliente no accede nunca directamente a las bases de datos, mejorando la seguridad.
 - Bad, because la lógica se despliega en el mismo servicio de aplicación, aumentando la latencia frente a 2 capas.
 
