@@ -2,6 +2,8 @@
 
 *Decisión modificada como consecuencia de una mala comunicación y la inclusión como alternativa de un estilo que no encaja con nuestra arquitectura*
 
+**Versión definitiva**
+
 - Status: accepted
 - Date: 2026-11-07
 
