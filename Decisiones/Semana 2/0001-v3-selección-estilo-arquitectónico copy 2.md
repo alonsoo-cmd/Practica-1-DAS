@@ -1,6 +1,6 @@
 # 0001 - Selección de Estilo Arquitectónico Principal
 
-*Decisión modificada como consecuencia de una mala comunicación y la inclusión como alternativa de un estilo que no encaja con nuestra arquitectura, se anulan las v2 y las v3*
+*Decisión modificada como consecuencia de una mala comunicación y la inclusión como alternativa de un estilo que no encaja con nuestra arquitectura, se anulan las v1 y las v2*
 
 **Versión definitiva**
 
