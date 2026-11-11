@@ -1,6 +1,6 @@
 # Gestión de notificaciones/suscripciones
 
-*Esta decisión se elimina en la semana 2 debido a una mala comunicación y organización a la hora de definir requisitos*
+*Esta decisión ha sido ANULADA en la semana 2 debido a la modificación de los requisitos*
 
 ## Context and Problem Statement
 
