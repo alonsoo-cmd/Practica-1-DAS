@@ -1,6 +1,8 @@
 # 0001 - Selección de Estilo Arquitectónico Principal
 
-*Decisión modificada como consecuencia de una mala comunicación y la inclusión como alternativa de un estilo que no encaja con nuestra arquitectura*
+*Decisión modificada como consecuencia de una mala comunicación y la inclusión como alternativa de un estilo que no encaja con nuestra arquitectura, se anulan las v2 y las v3*
+
+**Versión definitiva**
 
 - Status: accepted
 - Date: 2026-11-07
@@ -44,16 +46,16 @@ Chosen option: "Cliente-Servidor en 3 Capas", because es la opción que mejor se
 
 Una arquitectura cliente-servidor en la que un cliente web responsivo se comunica con un backend a través de una API REST y persiste los datos en dos bases de datos SQL independientes. Separa las responsabilidades en presentación, lógica de negocio y acceso a datos.
 
-- Good, because se separan responsabilidades: el cliente se encarga únicamente de mostrar la interfaz responsiva mientras el servidor contiene la lógica y la persistencia.
-- Good, because podemos implementar las peticiones HTTP/REST sin problemas.
-- Good, because el cliente no accede nunca directamente a las bases de datos, mejorando la seguridad.
-- Bad, because la lógica se despliega en el mismo servicio de aplicación, aumentando la latencia frente a 2 capas.
+- Good, because se separan responsabilidades: el cliente se encarga únicamente de mostrar la interfaz responsiva mientras el servidor contiene la lógica del periodico y la persistencia.
+- Good, because podemos implementar las peticiones HTTP/REST para la lógica de nuestro periodico.
+- Good, because el cliente no accede nunca directamente a la bases de datos, mejorando la seguridad.
+- Neutral, because al no tener cada servicio separado y tener toda la lógica del periodico centralizada, en caso de fallo en un servicio es probable que afecte al resto, deshabilitando la aplicación entera.
 
 ### Arquitectura de Microservicios
 
 Se usa un servicio independiente por cada sección del negocio con una responsabilidad distinta cada uno.
 
-- Good, because cada servicio se escala de forma independiente aislando fallos y protegiendo los servicios críticos.
-- Bad, because añade una complejidad inecesaria al tener que gestionar 2 bases de datos distintas.
-- Bad, because introduce una gran complejidad operativa y de gobierno de datos, desproporcionada para la escala del sistema.
+- Good, because podemos separar la lógica del periodico en servicios que se escalan de forma independiente aislando fallos y protegiendo los servicios críticos.
+- Bad, because introduce una gran complejidad operativa y de manejo de datos, desproporcionada para la escala del sistema.
+- Bad, because hay que separar claramente las responsabilidades de cada servicio, por ejemplo, tenemos que separar claramente suscriptores y pagos, por lo que si se hace de forma erronea puede provocar el mal funcionamiento de la aplicación.
 
