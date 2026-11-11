@@ -14,8 +14,8 @@ Se necesita definir el estilo arquitectónico principal para soportar un periód
 ## Decision Drivers
 
 - RF-1: Discriminación de dispositivos (adaptación de interfaz cliente PC/Tablet mediante HTTP/REST).
-- RD-2: Comunicación HTTP/REST (comunicación mediante API REST entre frontend y backend).
-- RD-4: Persistencia en PostgreSQL 19 (dos bases de datos independientes, una para redactores/administradores y otra para suscriptores).
+- RD-1: Comunicación HTTP/REST (comunicación mediante API REST entre frontend y backend).
+- RD-3: Persistencia en PostgreSQL 19 (dos bases de datos independientes, una para redactores/administradores y otra para suscriptores).
 
 ## Considered Options
 
